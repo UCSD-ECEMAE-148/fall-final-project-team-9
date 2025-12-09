@@ -15,7 +15,7 @@
 
 ## Abstract
 Our goal was to have the car traveling on a straight path, with parking spots parallel to it's path (one on it's left, one on 
-it's right). Based on the occupancy of these spots (using a "No Parking" sign), the car decides which spot is open and parks in that spot. 
+it's right). Based on the occupancy of these spots (using a "No Parking" sign), the car decides which spot is open and parks in that spot using a "Look, Measure, then Execute" type of strategy. 
 The system was implemented within a ROS2 framework, utilizing an OAK-D Lite camera for depth perception and OpenCV for real-time computer vision processing.
 Additionally, a sweeper mechanism was installed using a servo motor controlled by a PCA9685 driver to remove interfering objects.  
 
