@@ -1,12 +1,12 @@
 # 148-fall-2025-final-project-fall-2025-final-project-team-9
 148-fall-2025-final-project-fall-2025-final-project-team-9 created by GitHub Classroom
-# Parallel Parker with Occupancy Identification and Object Remover 
+# Parallel Parker with Sign Identification and Obstacle Remover
 
 ### Team Members
+* **Trew Hoffman** - Mechanical Engineering: Software - Class of 2026
 * **[Name]** - [Major/Role] - [Class Year]
 * **[Name]** - [Major/Role] - [Class Year]
-* **[Name]** - [Major/Role] - [Class Year]
-* **Owen Hanenian** - Mechanical Engineering - Class of 2026
+* **Owen Hanenian** - Mechanical Engineering: Hardware - Class of 2026
 
 ---
 
@@ -20,7 +20,7 @@ The system was implemented within a ROS2 framework, utilizing an OAK-D Lite came
 Additionally, a sweeper mechanism was installed using a servo motor controlled by a PCA9685 driver to remove interfering objects.  
 
 ## Key Features
-* **Feature 1:** [Brief description]
+* **:** [Brief description]
 * **Feature 2:** [Brief description]
 * **Feature 3:** [Brief description]
 
