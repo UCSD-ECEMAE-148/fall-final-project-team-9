@@ -5,7 +5,7 @@ MAE148 Fall 2025 - Team 9 - Smart Parallel Parking Robot created by GitHub Class
 ### Team Members
 * **Trew Hoffman** - Mechanical Engineering: Software - Class of 2026
 * **Manan Tuteja** - Aerospace Engineering: Hardware - Class of 2026
-* **Terri Tai** - Computer Engineering - Class of 2025
+* **Terri Tai** - Computer Engineering: Software - Class of 2025
 * **Owen Hanenian** - Mechanical Engineering: Hardware - Class of 2026
 
 ---
@@ -27,23 +27,47 @@ Once the spot is selected, the orchestrator executes a multi-step parking routin
 ## Key Features
 * **Vision-based sign detection:** Identifies red circular no-parking signs or left/right red distribution imbalance to determine which spot is closed via HSV mask. 
 * **AprilTag depth measurement:** [Computes tag distance using OAK-D rectified stereo depth, median-filtered for accuracy.
-* **Feature 3:** [Brief description]
+* **Parallel parking maneuver generator:** Performs a multi-stage, pre-tuned parking sequence via HAL steering and motor control.
+* **ROS2 Modular architecture:** Clean separation of HAL, vision, orchestrator, and servo control nodes.
 
 ## Core Objectives
-* **Objective A:** [e.g., Implement a tracking node...]
-    * *Measure:* [How do you quantify success?]
-    * *Action:* [What does the system do with this data?]
-* **Objective B:** [e.g., Robot remains stationary until...]
+* **Objective A:** Identify the correct parking spot
+    * *Measure:* Detect presence and location of no-parking sign
+    * *Action:* Return via ROS2 service which side is available, with no sign present
+* **Objective B:** Execute a parallel parking maneuver to the chosen spot
+    * *Measure:* Receive desired side from vision node
+    * *Action:* Execute hard-coded parallel parking manever with distances and steering dependent on chosen parking spot side.
+* **Objective C:** Determine distance to parking spots
+    * *Measure:* Use OAK-D stereo depth to determine distance to AprilTag (parking spots)
+    * *Action:* Drive forward the distance determined by OAK-D measurement to appraoch parking spots. Use an iterative approach to get closer if the AprilTag is too far to determine distance. 
 
 ## 4. System Architecture
 ### Node Descriptions
-* **`[node_name].py`**
-    * **Inputs:** [e.g., Camera feed, Lidar scan]
-    * **Logic:** [Briefly explain the processing]
-    * **Outputs:** [e.g., Motor control commands]
-* **`[node_name].py`**
-    * **Inputs:** [...]
+* **`vision_node.py`**
+    * **Inputs:**
+        * RGB preview, mono left/right, stereo depth from OAK-D
+        * Trigger service call /get_parking_spots
+    * **Logic:**
+        * Detect red circular NO PARKING signs or red imbalance.
+        * Detect AprilTag (tag36h11) in rectified-left frame.
+        * Compute median depth inside tag polygon.
+        * Apply linear depth correction.
+        * Return available side and corrected tag depth.
+    * **Outputs:**
+        * Trigger response: "side={left/right} depth_m={float}"
+* **`orchestrator.py`**
+    * **Inputs:**
+        * Output from parking_vision_node
+        * ROS 2 timer or driver logic to initiate maneuver
+    * **Logic:**
+        * Call vision service.
+        * Parse "side" and "depth_m".
+        * Execute parallel_park_left() or parallel_park_right() with correct HAL commands.
     * **Outputs:** [...]
+        * Motion commands to HAL for steering and driving.
+* **`HAL.py`**
+    * **Inputs:** Calls to drive() and set_steering() commands of certain distances and normalized steering angle.
+    * **Outputs:** Serial commands to the VESC to execute steering and driving. 
 
 ## 5. Hardware & Embedded Systems
 * **Compute Unit:** [e.g., Jetson Nano] running [OS].
