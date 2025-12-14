@@ -1,6 +1,5 @@
-#MAE148 Fall 2025 - Team 9 - Smart Parallel Parking Robot
-MAE148 Fall 2025 - Team 9 - Smart Parallel Parking Robot created by GitHub Classroom
-# Parallel Parking Car with Sign Identification and Obstacle Remover
+# MAE148 Fall 2025 - Team 9 - Smart Parallel Parking Robot
+## Parallel Parking Car with Sign Identification and Obstacle Remover
 
 ### Team Members
 * **Trew Hoffman** - Mechanical Engineering: Software - Class of 2026
