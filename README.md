@@ -101,4 +101,4 @@ Once the spot is selected, the orchestrator executes a multi-step parking routin
 * Utillize LiDAR for parking spot, sign, and obstacle detection rather than stereo depth and RGB with color masks. 
 
 ## 8. Acknowledgments
-* Dr. Silberman, Winston Chou
+* Dr. Jack Silberman, Winston Chou
