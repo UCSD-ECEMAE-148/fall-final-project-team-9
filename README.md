@@ -112,27 +112,27 @@ Once the spot is selected, the orchestrator executes a multi-step parking routin
 
 ## Challenges & Solutions
 
-### 1. OAK-D Color Channel Format Mismatch
+1. **OAK-D Color Channel Format Mismatch**
 * **The Issue:** The OAK-D camera outputs images in RGB format by default, but OpenCV's HSV color detection functions expect BGR format. This caused our red color mask to fail completely, preventing sign detection.
 * **The Solution:** We implemented a channel remapping step in our vision pipeline to convert RGB frames to BGR before HSV conversion, ensuring proper color detection.
 
-### 2. Inaccurate OAK-D Depth Measurements
+2. **Inaccurate OAK-D Depth Measurements**
 * **The Issue:** Raw depth values from the OAK-D stereo camera showed systematic errors that increased with distance, making precise parking distance measurements unreliable.
 * **The Solution:** We characterized the depth error by measuring known distances and created a correction curve. We applied linear compensation to depth measurements (depth_corrected = depth_raw × 0.9 + 0.1) to achieve centimeter-level accuracy.
 
-### 3. Unstable Depth Map Noise
+3. **Unstable Depth Map Noise**
 * **The Issue:** The stereo depth map contained significant noise and outliers, especially at tag boundaries, leading to inconsistent distance measurements when using simple averaging.
 * **The Solution:** Instead of averaging, we implemented a 9×9 region of interest (ROI) median filter over the AprilTag area. This robust statistic rejected outliers and provided stable depth estimates.
 
-### 4. AprilTag Detection Range Limitations
+4. **AprilTag Detection Range Limitations**
 * **The Issue:** The AprilTag was often too far from the camera to be reliably detected at the start of the parking sequence, preventing initial distance measurement.
 * **The Solution:** We implemented an iterative approach where the robot moves forward in small increments until the AprilTag becomes detectable, then proceeds with the full measurement and parking maneuver.
 
-### 5. Power Distribution Issues
+5. **Power Distribution Issues**
 * **The Issue:** With the OAK-D Lite, Raspberry Pi 5, VESC, and servos all drawing power simultaneously, we experienced brownouts and unstable operation during high-current maneuvers.
 * **The Solution:** We added a dedicated DC-DC converter with sufficient current capacity and implemented proper power sequencing to ensure stable voltage during all operating conditions.
 
-### 6. ROS2 Service Timing Synchronization
+6. **ROS2 Service Timing Synchronization**
 * **The Issue:** The vision node's service response sometimes arrived before depth processing was complete, causing the orchestrator to receive stale or invalid measurements.
 * **The Solution:** We implemented a callback-based synchronization system with proper service request validation, ensuring the orchestrator only proceeds when all sensor data is fresh and validated.
 
