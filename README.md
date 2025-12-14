@@ -63,28 +63,42 @@ Once the spot is selected, the orchestrator executes a multi-step parking routin
         * Call vision service.
         * Parse "side" and "depth_m".
         * Execute parallel_park_left() or parallel_park_right() with correct HAL commands.
-    * **Outputs:** [...]
+    * **Outputs:**
         * Motion commands to HAL for steering and driving.
 * **`HAL.py`**
-    * **Inputs:** Calls to drive() and set_steering() commands of certain distances and normalized steering angle.
-    * **Outputs:** Serial commands to the VESC to execute steering and driving. 
+    * **Inputs:**
+        * Calls to drive() and set_steering() commands of certain distances and normalized steering angle.
+    * **Logic:**
+        * Convert high-level movement commands into VESC duty cycle and servo commands.
+    * **Outputs:**
+        * Motor power and steering PWM to the car. 
 
 ## 5. Hardware & Embedded Systems
-* **Compute Unit:** [e.g., Jetson Nano] running [OS].
-* **Sensors:** [List sensors used].
-* **Connectivity:** [e.g., Wireless SSH].
+* **Compute Unit:** Raspberry Pi 5 running Rasperry Pi OS (Bookworm)
+* **Sensors:**
+  * OAK-D Lite
+  * VESC Hall sensors
+  * AprilTag fiducial marker
+* **Connectivity:**
+  * Ethernet SSH, wireless SSH
 * **CAD/Mechanical:**
-    * *Custom Parts:* [List parts you designed]
-    * *Stock Parts:* [List standard components]
+    * *Custom Parts:*
+      * Sweeper arm
+      * Mount for OAK-D Lite
+    * *Stock Parts:*
+      * DC-DC converter
+      * VESC
+      * 2 Servos (steering + arm)
+      * Car chassis
 
 ## 6. Setup & Execution
-1. **Environment:** `[command to source environment]`
-2. **Build:** `colcon build --packages-select [package_name]`
-3. **Launch:** `ros2 launch [package_name] [launch_file.py]`
+1. **Environment:** `source ~/ros2_ws/install/setup.bash`
+2. **Build:** `colcon build --packages-select parking_bot`
+3. **Launch:** `ros2 launch parking_bot parking.launch.py`
 
 ## 7. Future Improvements
-* [Improvement 1]
-* [Improvement 2]
+* Fix implementation of sweeper arm and obstacle detection in vision node that was not completed.
+* Utillize LiDAR for parking spot, sign, and obstacle detection rather than stereo depth and RGB with color masks. 
 
 ## 8. Acknowledgments
-* [Credit professors, TAs, or open-source libraries]
+* Dr. Silberman, Winston Chou
